@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Панель рассылок</h1>
+<div class="row">
+  <div class="col-md-4"><div class="card p-3 text-center"><h2>{{ stats.total_mailings }}</h2>Всего рассылок</div></div>
+  <div class="col-md-4"><div class="card p-3 text-center"><h2>{{ stats.active_mailings }}</h2>Активных рассылок</div></div>
+  <div class="col-md-4"><div class="card p-3 text-center"><h2>{{ stats.unique_recipients }}</h2>Уникальных получателей</div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Попытки отправки</h2>
+<table class="table">
+  <tr><th>Время</th><th>Рассылка</th><th>Статус</th><th>Ответ сервера</th></tr>
+  {% for a in attempts %}
+  <tr>
+    <td>{{ a.attempt_time|date:"d.m.Y H:i" }}</td>
+    <td><a href="{% url 'mailings:mailing_detail' a.mailing.pk %}">Рассылка #{{ a.mailing.pk }}</a></td>
+    <td>{{ a.status }}</td>
+    <td>{{ a.server_response|truncatechars:60 }}</td>
+  </tr>
+  {% empty %}<tr><td colspan="4">Попыток пока не было.</td></tr>{% endfor %}
+</table>
+{% endblock %}

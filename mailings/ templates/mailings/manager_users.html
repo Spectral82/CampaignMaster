@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Пользователи</h2>
+<table class="table">
+  <tr><th>Email</th><th>Активен</th><th>Подтверждён</th><th></th></tr>
+  {% for u in users %}
+  <tr>
+    <td>{{ u.email }}</td>
+    <td>{{ u.is_active|yesno:"да,нет" }}</td>
+    <td>{{ u.is_verified|yesno:"да,нет" }}</td>
+    <td>
+      {% if not u.is_superuser %}
+      <form method="post" action="{% url 'users:block' u.pk %}">{% csrf_token %}
+        <button class="btn btn-sm btn-warning">{% if u.is_active %}Заблокировать{% else %}Разблокировать{% endif %}</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

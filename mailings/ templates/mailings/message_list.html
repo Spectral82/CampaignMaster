@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2>Сообщения</h2>
+  <a class="btn btn-primary" href="{% url 'mailings:message_create' %}">Создать сообщение</a>
+</div>
+<table class="table">
+  <tr><th>Тема</th><th></th></tr>
+  {% for m in messages_list %}
+  <tr>
+    <td>{{ m.subject }}</td>
+    <td>
+      <a href="{% url 'mailings:message_detail' m.pk %}">Открыть</a>
+      <a href="{% url 'mailings:message_update' m.pk %}">Изменить</a>
+      <a href="{% url 'mailings:message_delete' m.pk %}">Удалить</a>
+    </td>
+  </tr>
+  {% empty %}<tr><td>Сообщений пока нет.</td></tr>{% endfor %}
+</table>
+{% endblock %}

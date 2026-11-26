@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Рассылка #{{ object.pk }} — {{ object.status }}</h2>
+<p>Период: {{ object.start_time|date:"d.m.Y H:i" }} — {{ object.end_time|date:"d.m.Y H:i" }}</p>
+<p>Сообщение: {{ object.message }}{% if not object.is_active %} <span class="badge bg-danger">Отключена менеджером</span>{% endif %}</p>
+<h5>Получатели:</h5>
+<ul>{% for r in object.recipients.all %}<li>{{ r.full_name }} &lt;{{ r.email }}&gt;</li>{% endfor %}</ul>
+<form method="post" action="{% url 'mailings:mailing_send' object.pk %}" class="my-3">{% csrf_token %}
+  <button class="btn btn-success">Отправить сейчас</button>
+</form>
+{% if request.user.is_superuser or perms.users.can_disable_mailing %}
+<form method="post" action="{% url 'mailings:mailing_disable' object.pk %}" class="my-3">{% csrf_token %}
+  <button class="btn btn-warning">{% if object.is_active %}Отключить{% else %}Включить{% endif %}</button>
+</form>
+{% endif %}
+<h5>Последние попытки:</h5>
+<ul>{% for a in attempts %}<li>{{ a.attempt_time|date:"d.m.Y H:i" }} — {{ a.status }} ({{ a.server_response|truncatechars:60 }})</li>{% empty %}<li>Попыток ещё не было.</li>{% endfor %}</ul>
+<a href="{% url 'mailings:mailing_update' object.pk %}">Редактировать</a>
+{% endblock %}

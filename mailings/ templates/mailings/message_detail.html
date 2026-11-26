@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ object.subject }}</h2>
+<pre>{{ object.body }}</pre>
+<a href="{% url 'mailings:message_update' object.pk %}">Редактировать</a>
+{% endblock %}
